@@ -32,20 +32,26 @@ public class TaskServiceImpl extends AbstractTaskService {
 
     @Override
     public List<Task> findAll(Optional<Comparator<Task>> orderBy) {
-        // Você deve usar o repository que já está disponível via heranca.
-        // Por exemplo return taskRepository.findAll();
-        // Mas lembre que precisa aplicar o ordenador (orderBy) antes de retornar a lista
-        return null;
+        if(orderBy.isPresent()) {
+            return taskRepository.findAll().stream().sorted(orderBy.get()).toList();
+        }
+        return taskRepository.findAll();
     }
 
     @Override
     public List<Task> findByStatus(Task.Status status, Optional<Comparator<Task>> orderBy) {
-        return null;
+        if(orderBy.isPresent()) {
+            return taskRepository.findByStatus(status).stream().sorted(orderBy.get()).toList();
+        }
+        return taskRepository.findByStatus(status);
     }
 
     @Override
     public List<Task> findBy(Predicate<Task> predicate, Optional<Comparator<Task>> orderBy) {
-        return null;
+        if(orderBy.isPresent()) {
+            return taskRepository.findBy(predicate).stream().sorted(orderBy.get()).toList();
+        }
+        return taskRepository.findBy(predicate);
     }
 
 }
